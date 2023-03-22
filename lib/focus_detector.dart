@@ -39,8 +39,7 @@ class FocusDetector extends StatefulWidget {
   _FocusDetectorState createState() => _FocusDetectorState();
 }
 
-class _FocusDetectorState extends State<FocusDetector>
-    with WidgetsBindingObserver {
+class _FocusDetectorState extends State<FocusDetector> with WidgetsBindingObserver {
   final _visibilityDetectorKey = UniqueKey();
 
   /// Whether this widget is currently visible within the app.
@@ -51,7 +50,10 @@ class _FocusDetectorState extends State<FocusDetector>
 
   @override
   void initState() {
-    WidgetsBinding.instance?.addObserver(this);
+    /// override the default interval of 500ms for faster reaction
+    VisibilityDetectorController.instance.updateInterval = Duration.zero;
+
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -159,7 +161,7 @@ class _FocusDetectorState extends State<FocusDetector>
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }
